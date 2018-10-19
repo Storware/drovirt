@@ -16,4 +16,4 @@ The actual implementation of the recplication is subject of discussion. Initiall
 ## Proposed architecture
 
 DRoVirt data mover is suppsoed to periodically snapshot and export data from RHV/oVirt API and transfer it to second location where increments can be restored.
-![DRoVirt architecture](img/DRoVirt-Architecture.png)
+![DRoVirt architecture](https://raw.githubusercontent.com/Storware/drovirt/master/img/DRoVirt-architecture.png)
