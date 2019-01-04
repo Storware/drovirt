@@ -36,7 +36,6 @@ def api_task_group_create():
     task_group = {}
     return jsonify(task_group.to_dict())
 
-
 # TASK
 
 @app.route("/task", methods=["GET"])
