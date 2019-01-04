@@ -36,15 +36,6 @@ def api_task_group_create():
     task_group = {}
     return jsonify(task_group.to_dict())
 
-
-@app.route("/task_group", methods=["POST"])
-def api_task_group_create(req):
-    req = request.get_json()
-    req = req if req is not None else {}
-    task_group = {}
-    return jsonify(task_group.to_dict())
-
-
 # TASK
 
 @app.route("/task", methods=["GET"])
