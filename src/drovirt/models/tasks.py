@@ -1,35 +1,33 @@
 
 import logging
 import datetime
-from sqlalchemy import Column, Integer, String, DateTime
-from sqlalchemy import orm
 
-from drovirt.models.base import Base
+from drovirt.models.base import db
 
 logger = logging.getLogger(__name__)
 
 
-class Task(Base):
+class Task(db.Model):
     __tablename__ = "task"
-    id = Column(Integer, primary_key=True)
-    name = Column(String(256), nullable=False, default='')
-    created = Column(DateTime, nullable=False, default=datetime.datetime.utcnow)
-    started = Column(DateTime)
-    finished = Column(DateTime)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(256), nullable=False, default='')
+    created = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
+    started = db.Column(db.DateTime)
+    finished = db.Column(db.DateTime)
 
-    node = orm.relationship("Node", back_populates="nodes")
-    task_group = orm.relationship("TaskGroup", back_populates="tasks")
-    task_type = Column(String(16), nullable=False, default='')
-    status = Column(String(16), nullable=False, default='')
-    order = Column(Integer, default=1)
-    message = Column(String(4096), nullable=True, default='')
+    node = db.relationship("Node", back_populates="nodes")
+    task_group = db.relationship("TaskGroup", back_populates="tasks")
+    task_type = db.Column(db.String(16), nullable=False, default='')
+    status = db.Column(db.String(16), nullable=False, default='')
+    order = db.Column(db.Integer, default=1)
+    message = db.Column(db.String(4096), nullable=True, default='')
 
 
-class TaskGroup(Base):
+class TaskGroup(db.Model):
     __tablename__ = "task_group"
-    id = Column(Integer, primary_key=True)
-    name = Column(String(256), nullable=False, default='')
-    created = Column(DateTime, nullable=False, default=datetime.datetime.utcnow)
-    updated = Column(DateTime)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(256), nullable=False, default='')
+    created = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
+    updated = db.Column(db.DateTime)
 
 

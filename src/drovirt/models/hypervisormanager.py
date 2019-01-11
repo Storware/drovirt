@@ -1,20 +1,19 @@
 
 import logging
 import datetime
-from sqlalchemy import Column, Integer, String, DateTime
 
-from drovirt.models.base import Base
+from drovirt.models.base import db
 
 logger = logging.getLogger(__name__)
 
 
-class HypervisorManager(Base):
-    __tablename__ = "vm"
-    id = Column(Integer, primary_key=True)
-    name = Column(String(256), nullable=False, default='')
-    created = Column(DateTime, nullable=False, default=datetime.datetime.utcnow)
-    updated = Column(DateTime)
+class HypervisorManager(db.Model):
+    __tablename__ = "hypervisor_manager"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(256), nullable=False, default='')
+    created = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
+    updated = db.Column(db.DateTime)
 
-    api_url = Column(String(256), nullable=False, default='')
-    manager_type = Column(String(64), nullable=False, default='')
+    api_url = db.Column(db.String(256), nullable=False, default='')
+    manager_type = db.Column(db.String(64), nullable=False, default='')
 
