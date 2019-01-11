@@ -1,13 +1,11 @@
 #!/bin/bash
-set -x
-set -e
 
 function check_install()
 {
     yum list installed $1 >/dev/null 2>&1
     if [[ $? != 0 ]]; then
 	echo "Installing $1"
-	yum install $1
+	yum -y install $1
     else
 	echo "$1 already installed"
     fi
@@ -21,11 +19,12 @@ fi
 echo "Checking web server installation"
 check_install nginx
 check_install uwsgi
+check_install postgresql-server
 
 echo "Stopping web server..."
 systemctl stop uwsgi
 systemctl stop nginx
-
+systemctl stop postgresql-server
 
 APP_NAME="drovirt"
 SCRIPT_DIR="$( cd "$(dirname "$0")" ; pwd -P )"
@@ -53,6 +52,20 @@ chown -R ${SYS_USER}:${SYS_GROUP} ${INSTALL_DIR}
 chmod -R 0755 ${INSTALL_DIR}
 
 find ${INSTALL_DIR} -type f -exec chmod 0644 {} \;
+
+
+if [[ ! -d /var/lib/pgsql/data ]]; then
+    echo "Setting up database"
+    postgresql-setup initdb
+    #sed -e '/local/ s/^#*/#/' -i /var/lib/pgsql/data/pg_hba.conf
+    echo -e "local\tdrovirt\t\tdrovirt\t\t\t\ttrust" >> /var/lib/pgsql/data/pg_hba.conf
+    systemctl start postgresql
+    sudo -Hiu postgres createuser --no-password drovirt
+    sudo -Hiu postgres createdb --no-password --owner drovirt drovirt
+else
+    echo "Database already present."
+    systemctl start postgresql
+fi    
 
 
 echo "Starting web server..."

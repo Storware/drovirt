@@ -20,6 +20,7 @@ cp -ar ${SCRIPT_DIR}/src/${APP_NAME} ${WORKSPACE}/${APP_NAME}
 # compilied files with future dates confuse interpreter and programmer
 find ${WORKSPACE}/ -name "*.pyc" -delete
 find ${WORKSPACE}/ -name "__pycache__" -delete
+find ${WORKSPACE}/ -name ".#*" -delete
 python3 -m compileall -b ${WORKSPACE}/${APP_NAME}
 find ${WORKSPACE}/${APP_NAME} -name "*.py" -delete
 
