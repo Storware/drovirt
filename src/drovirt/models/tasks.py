@@ -3,6 +3,7 @@ import logging
 import datetime
 
 from drovirt.models.base import db
+from drovirt.models.node import Node
 
 logger = logging.getLogger(__name__)
 
@@ -15,8 +16,12 @@ class Task(db.Model):
     started = db.Column(db.DateTime)
     finished = db.Column(db.DateTime)
 
-    node = db.relationship("Node", back_populates="nodes")
-    task_group = db.relationship("TaskGroup", back_populates="tasks")
+    node_id = db.Column(db.Integer, db.ForeignKey('node.id'), nullable=False)
+    node = db.relationship("Node", backref=db.backref("tasks", lazy=True), uselist=False)
+
+    task_group_id = db.Column(db.Integer, db.ForeignKey('task_group.id'), nullable=False)
+    task_group = db.relationship("TaskGroup", backref=db.backref("tasks", lazy=True))
+
     task_type = db.Column(db.String(16), nullable=False, default='')
     status = db.Column(db.String(16), nullable=False, default='')
     order = db.Column(db.Integer, default=1)
