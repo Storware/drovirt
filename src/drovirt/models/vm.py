@@ -3,6 +3,9 @@ import logging
 import datetime
 
 from drovirt.models.base import db
+from drovirt.models.hypervisor import Datacenter, Cluster, Hypervisor
+from drovirt.models.hypervisormanager import HypervisorManager
+
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +19,13 @@ class Vm(db.Model):
 
     uuid = db.Column(db.String(256), nullable=False, default='')
     last_replication = db.Column(db.DateTime)
-    datacenter = db.relationship("Datacenter", back_populates="vms")
-    cluster = db.relationship("Cluster", back_populates="vms")
-    hypervisor = db.relationship("Hypervisor", back_populates="vms")
-    hypervisor_manager = db.relationship("HypervisorManager", back_populates="vms")
+
+    datacenter_id = db.Column(db.Integer, db.ForeignKey('datacenter.id'), nullable=False)
+    cluster_id = db.Column(db.Integer, db.ForeignKey('cluster.id'), nullable=False)
+    hypervisor_id = db.Column(db.Integer, db.ForeignKey('hypervisor.id'), nullable=False)
+    hypervisor_manager_id = db.Column(db.Integer, db.ForeignKey('hypervisor_manager.id'), nullable=False)
+
+    datacenter = db.relationship("Datacenter", backref=db.backref("vms", lazy=True))
+    cluster = db.relationship("Cluster", backref=db.backref("vms", lazy=True))
+    hypervisor = db.relationship("Hypervisor", backref=db.backref("vms", lazy=True))
+    hypervisor_manager = db.relationship("HypervisorManager", backref=db.backref("vms", lazy=True))

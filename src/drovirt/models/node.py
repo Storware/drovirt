@@ -6,6 +6,7 @@ from drovirt.models.base import db
 
 logger = logging.getLogger(__name__)
 
+
 class Node(db.Model):
     __tablename__ = "node"
     id = db.Column(db.Integer, primary_key=True)
