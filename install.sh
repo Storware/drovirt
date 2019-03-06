@@ -46,6 +46,7 @@ else
 fi
 
 mkdir -p ${INSTALL_DIR}/run
+mkdir -p ${INSTALL_DIR}/log
 cp -ar ${STAGING}/* ${INSTALL_DIR}/
 
 chown -R ${SYS_USER}:${SYS_GROUP} ${INSTALL_DIR}

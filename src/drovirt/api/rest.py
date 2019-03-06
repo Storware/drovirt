@@ -8,6 +8,7 @@ from flask import abort
 from drovirt.api.app import app
 from drovirt.core.vm import get_vm, create_vm, delete_vm
 from drovirt.core.tasks import get_task, create_task, update_task, get_task_group, create_task_group
+from drovirt.core.tasks import get_task_for_node, complete_task
 from drovirt.core.node import get_node, create_node, update_node, delete_node
 from drovirt.core.hypervisor import get_cluster, create_cluster, delete_cluster
 from drovirt.core.hypervisor import get_datacenter, create_datacenter, delete_datacenter
@@ -84,6 +85,16 @@ def api_task_update():
     return jsonify(task.to_dict())
 
 
+@app.route("/task/<task_id>/complete", methods=["PATCH"])
+def api_task_complete(task_id):
+    req = request.get_json()
+    req = req if req is not None else {}
+    status = req['status']
+    message = req['message']
+    task = complete_task(task_id, status, message)
+    return jsonify(task.to_dict())
+
+
 # NODE
 
 @app.route("/node", methods=["GET"])
@@ -103,6 +114,14 @@ def api_node_get_one(node_id):
     if not nodes:
         abort(404)
     return jsonify(nodes[0].to_dict())
+
+
+@app.route("/node/<node_id>/get_task", methods=["GET"])
+def api_task_get_for_node(node_id):
+    task = get_task_for_node(node_id)
+    if not task:
+        return jsonify({})
+    return jsonify(task.to_dict())
 
 
 @app.route("/node", methods=["POST"])
