@@ -1,8 +1,8 @@
 
 import logging
-import datetime
+from sqlalchemy.sql import func
 
-from drovirt.models.base import db
+from drovirt.models.base import db, SerializerMixin
 from drovirt.models.hypervisor import Datacenter, Cluster, Hypervisor
 from drovirt.models.hypervisormanager import HypervisorManager
 
@@ -10,12 +10,12 @@ from drovirt.models.hypervisormanager import HypervisorManager
 logger = logging.getLogger(__name__)
 
 
-class Vm(db.Model):
+class Vm(SerializerMixin, db.Model):
     __tablename__ = "vm"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256), nullable=False, default='')
-    created = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
-    updated = db.Column(db.DateTime)
+    created = db.Column(db.DateTime, nullable=False, server_default=func.now())
+    updated = db.Column(db.DateTime, onupdate=func.now())
 
     uuid = db.Column(db.String(256), nullable=False, default='')
     last_replication = db.Column(db.DateTime)
