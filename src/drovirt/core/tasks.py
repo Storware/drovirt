@@ -50,9 +50,9 @@ def _assign_task(node):
     return task
 
 
-def create_task(**kwargs):
+def create_task(attributes):
     try:
-        task = Task(**kwargs)
+        task = Task(**attributes)
         db.session.add(task)
         db.session.commit()
     except IntegrityError:
@@ -83,9 +83,9 @@ def get_task_group(task_group_id=None):
     return task_group_list
 
 
-def create_task_group(**kwargs):
+def create_task_group(attributes):
     try:
-        task_group = TaskGroup(**kwargs)
+        task_group = TaskGroup(**attributes)
         db.session.add(task_group)
         db.session.commit()
     except IntegrityError:

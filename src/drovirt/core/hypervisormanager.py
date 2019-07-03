@@ -13,9 +13,19 @@ def get_hypervisor_manager(hypervisor_manager_id=None):
     return hypervisor_manager_list
 
 
-def create_hypervisor_manager(**kwargs):
+def load_hypervisor_manager_vms(hypervisor_manager_id=None):
+    query = HypervisorManager.query
+    if hypervisor_manager_id:
+        query = query.filter_by(id=hypervisor_manager_id)
+    hypervisor_manager_list = query.all()
+    for hvm in hypervisor_manager_list:
+        hvm.load_vms()
+    return hypervisor_manager_list
+
+
+def create_hypervisor_manager(attributes):
     try:
-        hypervisor_manager = HypervisorManager(**kwargs)
+        hypervisor_manager = HypervisorManager(**attributes)
         db.session.add(hypervisor_manager)
         db.session.commit()
     except IntegrityError:

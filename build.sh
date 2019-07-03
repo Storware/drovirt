@@ -9,6 +9,22 @@ WORKSPACE=${SCRIPT_DIR}/workspace
 STAGING=${WORKSPACE}/staging
 APP_NAME="drovirt"
 
+# If oVirt SDK4 for CentOS 7 and Python3 was available, we could just download an RPM
+#        yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+#        yum install https://resources.ovirt.org/pub/yum-repo/ovirt-release43.rpm
+#        yum install python-ovirt-engine-sdk4
+# But it is not, so we compile.
+
+# for building python3-ovirt-engine-sdk4
+export PYCURL_SSL_LIBRARY=nss
+yum -y install epel-release
+yum -y install python36-devel
+yum -y install python36-pip
+yum -y install libcurl-devel
+yum -y install gcc
+yum -y install libxml2-devel
+python3 -m pip install --upgrade pip
+
 if [[ -d ${WORKSPACE} ]]; then
 	rm -rf ${WORKSPACE}/${APP_NAME}
 else
@@ -26,7 +42,7 @@ find ${WORKSPACE}/${APP_NAME} -name "*.py" -delete
 
 if [[ ! -d ${WORKSPACE}/lib ]]; then
     mkdir -p ${WORKSPACE}/lib
-    pip install --target=${WORKSPACE}/lib/ -r requirements.txt
+    pip3 install --target=${WORKSPACE}/lib/ -r requirements.txt
     ls -lah ${WORKSPACE}/lib/
 fi
 

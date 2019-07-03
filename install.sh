@@ -19,6 +19,7 @@ fi
 echo "Checking web server installation"
 check_install nginx
 check_install uwsgi
+check_install uwsgi-plugin-python3
 check_install postgresql-server
 
 echo "Stopping web server..."
