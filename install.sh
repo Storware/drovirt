@@ -69,6 +69,9 @@ else
     systemctl start postgresql
 fi    
 
+echo "Checking if database needs upgrade..."
+PYTHONPATH=$INSTALL_DIR/lib python3 $INSTALL_DIR/lib/$APP_NAME/manage.pyc db upgrade --directory $INSTALL_DIR/lib/$APP_NAME/migrations/
+
 
 echo "Starting web server..."
 
