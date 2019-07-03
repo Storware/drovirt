@@ -17,3 +17,10 @@ The actual implementation of the replication is subject to discussion. Initially
 
 DRoVirt data mover is supposed to periodically snapshot and export data from RHV/oVirt API and transfer it to a second location where increments can be restored.
 ![DRoVirt architecture](https://raw.githubusercontent.com/Storware/drovirt/master/img/DRoVirt-architecture.png)
+
+
+## To Do
+* nginx & uwsgi, postgresql servers do not start after reboot 
+* Command Line Interface
+* Non-blocking VM acquisition
+

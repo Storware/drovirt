@@ -13,9 +13,9 @@ def get_node(node_id=None):
     return node_list
 
 
-def create_node(**kwargs):
+def create_node(attributes):
     try:
-        node = Node(**kwargs)
+        node = Node(**attributes)
         db.session.add(node)
         db.session.commit()
     except IntegrityError:

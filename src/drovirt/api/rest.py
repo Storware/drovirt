@@ -14,7 +14,7 @@ from drovirt.core.hypervisor import get_cluster, create_cluster, delete_cluster
 from drovirt.core.hypervisor import get_datacenter, create_datacenter, delete_datacenter
 from drovirt.core.hypervisor import get_hypervisor, create_hypervisor, delete_hypervisor
 from drovirt.core.hypervisormanager import get_hypervisor_manager, create_hypervisor_manager
-from drovirt.core.hypervisormanager import delete_hypervisor_manager, update_hypervisor_manager
+from drovirt.core.hypervisormanager import delete_hypervisor_manager, load_hypervisor_manager_vms
 
 logger = logging.getLogger(__name__)
 logger.info("Started API process")
@@ -277,6 +277,19 @@ def api_hypervisor_manager_create():
     req = request.get_json()
     req = req if req is not None else {}
     hypervisor_manager = create_hypervisor_manager(req)
+    return jsonify(hypervisor_manager.to_dict())
+
+
+@app.route("/hypervisor_manager/<hypervisor_manager_id>/load_vms", methods=["POST"])
+def api_hypervisor_manager_load_vms(hypervisor_manager_id):
+    hypervisor_managers = get_hypervisor_manager(hypervisor_manager_id)
+    if not hypervisor_managers:
+        abort(404)
+    load_hypervisor_manager_vms(hypervisor_managers[0].id)
+    req = request.get_json()
+    req = req if req is not None else {}
+    hypervisor_manager = create_hypervisor_manager(req)
+
     return jsonify(hypervisor_manager.to_dict())
 
 

@@ -13,9 +13,9 @@ def get_hypervisor(hypervisor_id=None):
     return hypervisor_list
 
 
-def create_hypervisor(**kwargs):
+def create_hypervisor(attributes):
     try:
-        hypervisor = Hypervisor(**kwargs)
+        hypervisor = Hypervisor(**attributes)
         db.session.add(hypervisor)
         db.session.commit()
     except IntegrityError:
@@ -43,9 +43,9 @@ def get_cluster(cluster_id=None):
     return cluster_list
 
 
-def create_cluster(**kwargs):
+def create_cluster(attributes):
     try:
-        cluster = Cluster(**kwargs)
+        cluster = Cluster(**attributes)
         db.session.add(cluster)
         db.session.commit()
     except IntegrityError:
@@ -73,9 +73,9 @@ def get_datacenter(datacenter_id=None):
     return datacenter_list
 
 
-def create_datacenter(**kwargs):
+def create_datacenter(attributes):
     try:
-        datacenter = Datacenter(**kwargs)
+        datacenter = Datacenter(**attributes)
         db.session.add(datacenter)
         db.session.commit()
     except IntegrityError:
