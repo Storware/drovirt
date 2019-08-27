@@ -39,6 +39,7 @@ find ${WORKSPACE}/ -name "__pycache__" -delete
 find ${WORKSPACE}/ -name ".#*" -delete
 python3 -m compileall -b ${WORKSPACE}/${APP_NAME}
 find ${WORKSPACE}/${APP_NAME} -name "*.py" -delete
+mv ${WORKSPACE}/${APP_NAME}/cli/drovirt.pyc ${WORKSPACE}/${APP_NAME}/cli/${APP_NAME}
 
 if [[ ! -d ${WORKSPACE}/lib ]]; then
     mkdir -p ${WORKSPACE}/lib

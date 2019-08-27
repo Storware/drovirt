@@ -25,7 +25,7 @@ def create_hypervisor(attributes):
 
 
 def delete_hypervisor(hypervisor_id):
-    hypervisor = get_hypervisor(hypervisor_id=hypervisor_id)
+    hypervisor = get_hypervisor(hypervisor_id=hypervisor_id)[0]
     try:
         db.session.delete(hypervisor)
         db.session.commit()
@@ -55,7 +55,7 @@ def create_cluster(attributes):
 
 
 def delete_cluster(cluster_id):
-    cluster = get_cluster(cluster_id=cluster_id)
+    cluster = get_cluster(cluster_id=cluster_id)[0]
     try:
         db.session.delete(cluster)
         db.session.commit()
@@ -85,7 +85,7 @@ def create_datacenter(attributes):
 
 
 def delete_datacenter(datacenter_id):
-    datacenter = get_datacenter(datacenter_id=datacenter_id)
+    datacenter = get_datacenter(datacenter_id=datacenter_id)[0]
     try:
         db.session.delete(datacenter)
         db.session.commit()

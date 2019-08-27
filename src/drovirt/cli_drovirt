@@ -1,0 +1,3 @@
+#!/bin/bash
+
+sudo -n -u drovirt /usr/bin/python3 /opt/drovirt/lib/drovirt/cli/drovirt $@

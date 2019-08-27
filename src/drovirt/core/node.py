@@ -25,7 +25,7 @@ def create_node(attributes):
 
 
 def delete_node(node_id):
-    node = get_node(node_id=node_id)
+    node = get_node(node_id=node_id)[0]
     try:
         db.session.delete(node)
         db.session.commit()
@@ -35,11 +35,11 @@ def delete_node(node_id):
     return True
 
 
-def update_node(**kwargs):
+def update_node(attributes):
     allowed_fields = ['name', 'state', 'watchdog']
-    allowed_kwargs = {field: val for field, val in kwargs if field in allowed_fields}
+    allowed_kwargs = {field: val for field, val in attributes.items() if field in allowed_fields}
     try:
-        node = Node.query.filter_by(id=kwargs['node_id']).one()
+        node = Node.query.filter_by(id=attributes['node_id']).one()
         for key, value in allowed_kwargs.items():
             setattr(node, key, value)
         db.session.commit()

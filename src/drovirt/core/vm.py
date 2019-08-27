@@ -30,7 +30,7 @@ def create_vm(attributes):
 
 
 def delete_vm(vm_id):
-    vm = get_vm(vm_id=vm_id)
+    vm = get_vm(vm_id=vm_id)[0]
     try:
         db.session.delete(vm)
         db.session.commit()
