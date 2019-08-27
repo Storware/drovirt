@@ -306,7 +306,7 @@ def api_vm_get_all():
     vms = get_vm()
     output = {}
     output['total'] = len(vms)
-    output['vms'] = vms
+    output['vms'] = []
     for vm in vms:
         output['vms'].append(vm.to_dict())
     return jsonify(output)

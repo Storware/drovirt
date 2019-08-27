@@ -3,6 +3,8 @@ import logging
 from sqlalchemy.sql import func
 
 from drovirt.models.base import db, SerializerMixin
+from drovirt.models.hypervisor import Cluster, Datacenter, Hypervisor
+from drovirt.models.hypervisormanager import HypervisorManager
 
 logger = logging.getLogger(__name__)
 

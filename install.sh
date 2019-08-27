@@ -19,7 +19,8 @@ fi
 echo "Checking web server installation"
 check_install nginx
 check_install uwsgi
-check_install uwsgi-plugin-python3
+check_install uwsgi-plugin-python36
+check_install uwsgi-plugin-syslog
 check_install postgresql-server
 
 echo "Stopping web server..."
@@ -70,7 +71,9 @@ else
 fi    
 
 echo "Checking if database needs upgrade..."
-PYTHONPATH=$INSTALL_DIR/lib python3 $INSTALL_DIR/lib/$APP_NAME/manage.pyc db upgrade --directory $INSTALL_DIR/lib/$APP_NAME/migrations/
+sudo -u drovirt PYTHONPATH=$INSTALL_DIR/lib python3 $INSTALL_DIR/lib/$APP_NAME/manage.pyc db upgrade --directory $INSTALL_DIR/lib/$APP_NAME/migrations/
+
+install -o root -g root -m 775 ${INSTALL_DIR}/lib/${APP_NAME}/cli_drovirt /usr/local/bin/${APP_NAME}
 
 
 echo "Starting web server..."

@@ -3,7 +3,7 @@ import logging
 from sqlalchemy.sql import func
 from drovirt.models.base import db, SerializerMixin
 from drovirt.core.errors import UnsupportedHypervisorManagerAction
-import drovirt.core.vm as core_vm
+# import drovirt.core.vm as core_vm
 import drovirt.connectors.ovirt as ovirt
 
 
@@ -30,7 +30,8 @@ class HypervisorManager(SerializerMixin, db.Model):
             hvm_vms = ovirt.system.get_vms(connection)
             connection.close()
             logger.info("Loaded %s vms" % len(hvm_vms))
-            core_vm.update_vms(hvm_vms, hvm_id=self.id)
+            # circular dependent imports (core imports models and here model imports core)
+            # core_vm.update_vms(hvm_vms, hvm_id=self.id)
             logger.info("Updating VMs finished ...")
             return len(hvm_vms)
 

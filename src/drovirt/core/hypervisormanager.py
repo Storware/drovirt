@@ -35,7 +35,7 @@ def create_hypervisor_manager(attributes):
 
 
 def delete_hypervisor_manager(hypervisor_manager_id):
-    hypervisor_manager = get_hypervisor_manager(hypervisor_manager_id=hypervisor_manager_id)
+    hypervisor_manager = get_hypervisor_manager(hypervisor_manager_id=hypervisor_manager_id)[0]
     try:
         db.session.delete(hypervisor_manager)
         db.session.commit()
@@ -45,11 +45,11 @@ def delete_hypervisor_manager(hypervisor_manager_id):
     return True
 
 
-def update_hypervisor_manager(**kwargs):
+def update_hypervisor_manager(attributes):
     allowed_fields = ['name', 'api_url', 'manager_type']
-    allowed_kwargs = {field: val for field, val in kwargs if field in allowed_fields}
+    allowed_kwargs = {field: val for field, val in attributes.items() if field in allowed_fields}
     try:
-        hypervisor_manager = HypervisorManager.query.filter_by(id=kwargs['hypervisor_manager_id']).one()
+        hypervisor_manager = HypervisorManager.query.filter_by(id=attributes['hypervisor_manager_id']).one()
         for key, value in allowed_kwargs.items():
             setattr(hypervisor_manager, key, value)
         db.session.commit()

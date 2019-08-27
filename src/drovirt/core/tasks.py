@@ -9,6 +9,7 @@ from drovirt.models.node import Node
 
 logger = logging.getLogger(__name__)
 
+
 def get_task(task_id=None):
     query = Task.query
     if task_id:
@@ -61,11 +62,11 @@ def create_task(attributes):
     return task
 
 
-def update_task(**kwargs):
-    allowed_fields = ['name', 'node', 'status', 'message']
-    allowed_kwargs = {field: val for field, val in kwargs if field in allowed_fields}
+def update_task(attributes):
+    allowed_fields = ['name', 'node_id', 'status', 'message']
+    allowed_kwargs = {field: val for field, val in attributes.items() if field in allowed_fields}
     try:
-        task = Task.query.filter_by(id=kwargs['task_id']).one()
+        task = Task.query.filter_by(id=attributes['task_id']).one()
         for key, value in allowed_kwargs.items():
             setattr(task, key, value)
         db.session.commit()
